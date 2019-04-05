@@ -6,24 +6,59 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Bookmarker™</title>
 
-    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P|Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="styles/grid.css">
+    <link rel="stylesheet" href="styles/rating.css">
+    <link rel="stylesheet" href="styles/styles.css">
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 </head>
 <body>
     <div class="container">
-        <div role="heading" class="css-box">
-            <h1>Bookmarker™</h1>
+        <div role="heading" class="grid-row css-box">
+            <h1 class="col-4">Bookmarker™</h1>
         </div>
 
-        <div aria-label="New Bookmarks" class="css-box add-new-bookmarks-div"></div>
+        <div aria-label="New Bookmarks" class="grid-row css-box add-new-bookmarks-div">
+            <button class="grid-item col-2 add-bookmark-button">
+                <span class="button-label">Add Bookmark</span>
+            </button>
+            <div class="grid-item col-2 error-display" hidden>Error Messages</div>
+            <form aria-label="New Bookmark form" class="grid-row new-bookmark-form" hidden>
+                <button class="grid-item col-2 add-bookmark-cancel-button">Cancel</button>
+                <section class="grid-row">
+                    <input type="text" name="new-bookmark-name" placeholder="Name" class="grid-item col-2 new-bookmark-name">
+                    <input type="text" name="new-bookmark-url" placeholder="url" class="grid-item col-2 new-bookmark-url">
+                    <section class="grid-item col-2 new-bookmark-ratings">
+                        <input type="radio" name="new-bookmark-rating" value="5">5★
+                        <input type="radio" name="new-bookmark-rating" value="4">4★
+                        <input type="radio" name="new-bookmark-rating" value="3">3★
+                        <input type="radio" name="new-bookmark-rating" value="2">2★
+                        <input type="radio" name="new-bookmark-rating" value="1">1★
+                    </section>
+                    <button type="submit" class="grid-item col-1 new-bookmark-submit">Submit</button>
+                    <button type="reset" class="grid-item col-1 new-bookmark-reset">Reset</button>
+                    <input type="text" name="new-bookmark-desc" placeholder="Description" class="grid-item col-4 new-bookmark-desc">
+                </section>
+            </form>
+        </div>
 
-        <div aria-label="Filter Bookmarks" class="css-box filter-bookmarks-div"></div>
+        <div aria-label="Filter Bookmarks" class="grid-row css-box filter-bookmarks-div">
+            <section aria-live="polite" class="grid-item col-2 number-of-bookmarks-displayed">3 out of 3 Bookmarks</section>
+            <select aria-label="Filter Bookmarks by rating" class="grid-item col-2 filter-by-rating" name="min-rating-filter" id="filter-by-rating">
+                <option value="5">★★★★★</option>
+                <option value="4">★★★★</option>
+                <option value="3">★★★</option>
+                <option value="2">★★</option>
+                <option value="1">★</option>
+                <option value="0" selected="selected">Min Rating</option>
+            </select>
+        </div>
 
         <ul aria-label="Bookmarks" class="bookmarks">
             <!-- update data-item-id with id from API -->
-            <li class="bookmark css-box" data-item-id="0000001">
-                <span class="bookmark-name">Youtube</span>
-                <div class="bookmark-rating">
+            <li class="grid-row css-box bookmark" data-item-id="0000001">
+                <span class="grid-item col-1 bookmark-name">Youtube</span>
+                <div class="grid-item col-1 bookmark-rating">
                     <input type="radio" id="star5" name="rate" value="5" />
                     <label for="star5" title="text">5 stars</label>
                     <input type="radio" id="star4" name="rate" value="4" />
@@ -35,75 +70,13 @@
                     <input type="radio" id="star1" name="rate" value="1" />
                     <label for="star1" title="text">1 star</label>
                 </div>
-                <button aria-label="Delete Bookmark" class="bookmark-delete">
-                    <span class="button-label">Delete</span>
-                </button>
-                <button aria-label="Bookmark details" class="bookmark-details">
-                    <span class="button-label">Details</span>
-                </button>
-                <div class="bookmark-details" hidden>
-                    <p class="bookmark-description">Description</p>
-                    <button class="bookmark-url-button">
-                        <span class="button-label">Visit site</span>
-                    </button>
+                <button class="grid-item col-1 bookmark-delete">Delete</button>
+                <button class="grid-item col-1 bookmark-details">Details</button>
+                <div class="grid-row col-4 bookmark-details" hidden>
+                    <button class="grid-item col-1 bookmark-url-button">Visit site</button>
+                    <p class="grid-item col-4 bookmark-description">Description</p>
                 </div>
             </li>
-
-            <li class="bookmark css-box" data-item-id="0000001">
-                    <span class="bookmark-name">Youtube</span>
-                    <div class="bookmark-rating">
-                        <input type="radio" id="star5" name="rate" value="5" />
-                        <label for="star5" title="text">5 stars</label>
-                        <input type="radio" id="star4" name="rate" value="4" />
-                        <label for="star4" title="text">4 stars</label>
-                        <input type="radio" id="star3" name="rate" value="3" />
-                        <label for="star3" title="text">3 stars</label>
-                        <input type="radio" id="star2" name="rate" value="2" />
-                        <label for="star2" title="text">2 stars</label>
-                        <input type="radio" id="star1" name="rate" value="1" />
-                        <label for="star1" title="text">1 star</label>
-                    </div>
-                    <button aria-label="Delete Bookmark" class="bookmark-delete">
-                        <span class="button-label">Delete</span>
-                    </button>
-                    <button aria-label="Bookmark details" class="bookmark-details">
-                        <span class="button-label">Details</span>
-                    </button>
-                    <div class="bookmark-details" hidden>
-                        <p class="bookmark-description">Description</p>
-                        <button class="bookmark-url-button">
-                            <span class="button-label">Visit site</span>
-                        </button>
-                    </div>
-                </li>
-
-                <li class="bookmark css-box" data-item-id="0000001">
-                        <span class="bookmark-name">Youtube</span>
-                        <div class="bookmark-rating">
-                            <input type="radio" id="star5" name="rate" value="5" />
-                            <label for="star5" title="text">5 stars</label>
-                            <input type="radio" id="star4" name="rate" value="4" />
-                            <label for="star4" title="text">4 stars</label>
-                            <input type="radio" id="star3" name="rate" value="3" />
-                            <label for="star3" title="text">3 stars</label>
-                            <input type="radio" id="star2" name="rate" value="2" />
-                            <label for="star2" title="text">2 stars</label>
-                            <input type="radio" id="star1" name="rate" value="1" />
-                            <label for="star1" title="text">1 star</label>
-                        </div>
-                        <button aria-label="Delete Bookmark" class="bookmark-delete">
-                            <span class="button-label">Delete</span>
-                        </button>
-                        <button aria-label="Bookmark details" class="bookmark-details">
-                            <span class="button-label">Details</span>
-                        </button>
-                        <div class="bookmark-details" hidden>
-                            <p class="bookmark-description">Description</p>
-                            <button class="bookmark-url-button">
-                                <span class="button-label">Visit site</span>
-                            </button>
-                        </div>
-                    </li>
         </ul>
     </div>
 
