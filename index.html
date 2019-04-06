@@ -19,14 +19,12 @@
         </div>
 
         <div aria-label="New Bookmarks" class="grid-row css-box add-new-bookmarks-div">
-            <button class="grid-item col-2 add-bookmark-button">
-                <span class="button-label">Add Bookmark</span>
-            </button>
-            <div class="grid-item col-2 error-display" hidden>Error Messages</div>
-            <form aria-label="New Bookmark form" class="grid-row new-bookmark-form" hidden>
+            <button class="grid-item col-2 add-bookmark-button">Add Bookmark</button>
+            <div class="grid-item col-2 error-display hidden">Error Messages</div>
+            <form aria-label="New Bookmark form" class="grid-row new-bookmark-form hidden" id="new-bookmark-form">
                 <button class="grid-item col-2 add-bookmark-cancel-button">Cancel</button>
                 <section class="grid-row">
-                    <input type="text" name="new-bookmark-name" placeholder="Name" class="grid-item col-2 new-bookmark-name">
+                    <input type="text" name="new-bookmark-name" placeholder="Title" class="grid-item col-2 new-bookmark-title">
                     <input type="text" name="new-bookmark-url" placeholder="url" class="grid-item col-2 new-bookmark-url">
                     <section class="grid-item col-2 new-bookmark-ratings">
                         <input type="radio" name="new-bookmark-rating" value="5">5★
@@ -35,9 +33,9 @@
                         <input type="radio" name="new-bookmark-rating" value="2">2★
                         <input type="radio" name="new-bookmark-rating" value="1">1★
                     </section>
-                    <button type="submit" class="grid-item col-1 new-bookmark-submit">Submit</button>
-                    <button type="reset" class="grid-item col-1 new-bookmark-reset">Reset</button>
                     <input type="text" name="new-bookmark-desc" placeholder="Description" class="grid-item col-4 new-bookmark-desc">
+                    <button type="reset" class="grid-item col-1 new-bookmark-reset">Reset</button>
+                    <button type="submit" class="grid-item col-1 new-bookmark-submit">Submit</button>
                 </section>
             </form>
         </div>
@@ -57,7 +55,7 @@
         <ul aria-label="Bookmarks" class="bookmarks">
             <!-- update data-item-id with id from API -->
             <li class="grid-row css-box bookmark" data-item-id="0000001">
-                <span class="grid-item col-1 bookmark-name">Youtube</span>
+                <span class="grid-item col-1 bookmark-title">Youtube</span>
                 <div class="grid-item col-1 bookmark-rating">
                     <input type="radio" id="star5" name="rate" value="5" />
                     <label for="star5" title="text">5 stars</label>
@@ -72,7 +70,7 @@
                 </div>
                 <button class="grid-item col-1 bookmark-delete">Delete</button>
                 <button class="grid-item col-1 bookmark-details">Details</button>
-                <div class="grid-row col-4 bookmark-details" hidden>
+                <div class="grid-row col-4 bookmark-details hidden">
                     <button class="grid-item col-1 bookmark-url-button">Visit site</button>
                     <p class="grid-item col-4 bookmark-description">Description</p>
                 </div>
@@ -80,7 +78,6 @@
         </ul>
     </div>
     <script type="text/javascript" src="scripts/api.js"></script>
-    <script type="text/javascript" src="scripts/bookmark.js"></script>
     <script type="text/javascript" src="scripts/library.js"></script>
     <script type="text/javascript" src="scripts/handlers.js"></script>
     <script type="text/javascript" src="scripts/index.js"></script>

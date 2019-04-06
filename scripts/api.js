@@ -10,6 +10,9 @@ const api = (function (){
     function createBookmark(title, url, desc, rating) {
       const options = {
         method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        }),
         body: {
             "title": JSON.stringify({title}),
             "url": JSON.stringify({url}),
@@ -25,6 +28,9 @@ const api = (function (){
 
       const options = {
         method: 'PATCH',
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        }),
         body: newObj
       };
       return listApiFetch(BASE_URL + `bookmarks/${id}`, options);
@@ -32,7 +38,10 @@ const api = (function (){
   
     function deleteBookmark(id) {
       const options = {
-        method: 'DELETE'
+        method: 'DELETE',
+        headers: new Headers({
+          'Content-Type': 'application/json'
+        }),
       };
       return listApiFetch(BASE_URL + `bookmarks/${id}`, options);
     }

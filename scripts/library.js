@@ -2,8 +2,9 @@
 
 const library = (function(){
     const addBookmark = function(bookmark) {
+      const newBookmark = { bookmark , details: false };
       try {
-        library.bookmarks.push(bookmark);
+        library.bookmarks.push(newBookmark);
       } catch(e) {
         console.log(e.message);
       }
@@ -23,10 +24,6 @@ const library = (function(){
         Object.assign(library.bookmarks.find(bookmark => bookmark.id === id), newData);
     };
   
-    const toggleRatingFilter = function() {
-      this.ratingFilter = !this.ratingFilter;
-    };
-  
     const setBookmarkIsEditing = function(id, isEditing) {
       const bookmark = this.findById(id);
       bookmark.isEditing = isEditing;
@@ -36,20 +33,17 @@ const library = (function(){
         const bookmark = this.findById(id);
         bookmark.details = !bookmark.details;
     };
-   
-    let error = null;
-  
+
     return {
       bookmarks: [],
-      ratingFilter: false,
-      searchTerm: '',
-      error,
+      ratingFilter: 0,
+      error: null,
+      addBookmarkForm: false,
   
       addBookmark,
       findById,
       findAndUpdate,
       findAndDelete,
-      toggleRatingFilter,
       setBookmarkIsEditing,
       toggleBookmarkDetails,
     };
