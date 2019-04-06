@@ -4,7 +4,7 @@
 
 const library = (function(){
   const addBookmark = function(bookmark) {
-    const newBookmark = { bookmark , details: false };
+    const newBookmark = { ...bookmark , details: false };
     try {
       library.bookmarks.push(newBookmark);
     } catch(e) {

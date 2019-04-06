@@ -51,3 +51,7 @@ p {
 .filter-by-rating {
     text-indent: 44%;
 }
+
+li {
+    font-size: 16px;
+}
