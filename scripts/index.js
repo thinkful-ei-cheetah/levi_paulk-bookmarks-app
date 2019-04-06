@@ -5,8 +5,10 @@ $(document).ready(function() {
 
     api.getBookmarks()
         .then(bookmarks => {
-            bookmarks.forEach((bookmark) => library.addbookmark(bookmark));
+            bookmarks.forEach((bookmark) => library.addBookmark(bookmark));
             handlers.render();
         })
         .catch(error => console.log(error));
+
+    handlers.render();
 });
