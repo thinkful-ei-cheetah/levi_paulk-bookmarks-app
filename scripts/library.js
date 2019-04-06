@@ -1,5 +1,7 @@
 'use strict';
 
+/* global api handlers library*/
+
 const library = (function(){
   const addBookmark = function(bookmark) {
     const newBookmark = { bookmark , details: false };

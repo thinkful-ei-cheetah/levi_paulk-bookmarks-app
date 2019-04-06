@@ -1,6 +1,6 @@
 'use strict';
 
-// Start here //
+/* global api handlers library*/
 
 const handlers = (function(){
 

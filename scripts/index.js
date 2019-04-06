@@ -1,5 +1,7 @@
 'use strict';
 
+/* global api handlers library*/
+
 $(document).ready(function() {
     handlers.bindEventListeners();
 

@@ -1,5 +1,7 @@
 'use strict';
 
+/* global api handlers library*/
+
 const api = (function (){
   const BASE_URL = 'https://thinkful-list-api.herokuapp.com/levipaulk/bookmarks';
 
