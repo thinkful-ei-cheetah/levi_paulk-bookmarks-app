@@ -55,3 +55,7 @@ p {
 li {
     font-size: 16px;
 }
+
+.bookmark-description{
+    display: inline-block;
+}

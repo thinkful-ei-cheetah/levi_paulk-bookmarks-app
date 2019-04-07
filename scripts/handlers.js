@@ -9,12 +9,11 @@ const handlers = (function(){
     if (bookmark.details) {
       detailsToggle = "";
     }
-
-    console.log('generateBookmarkElement ran for ' + bookmark);
+    // console.log('generateBookmarkElement ran for ' + bookmark);
     let bookmarkDesc = `<p class="grid-item col-4 bookmark-description">${bookmark.desc}</p>`;
     if (bookmark.isEditing) {
       bookmarkDesc = `
-        <form class="js-edit-bookmark">
+        <form class="grid-row col-4 js-edit-bookmark">
           <input class="grid-item col-4 bookmark-description" type="text" value="${bookmark.desc}" />
         </form>
       `;
@@ -26,7 +25,7 @@ const handlers = (function(){
               ${generateBookmarkRatingDisplay(bookmark.rating)}
             </div>
             <button class="grid-item col-1 bookmark-delete">Delete</button>
-            <button class="grid-item col-1 bookmark-details">Details</button>
+            <button class="grid-item col-1 bookmark-details-button">Details</button>
             <div class="grid-row col-4 bookmark-details ${detailsToggle}">
                 <button class="grid-item col-1 bookmark-url-button" onclick="window.open('${bookmark.url}', '_blank'); return false;">Visit site</button>
                 <button class="grid-item col-1 bookmark-edit-desc-button js-edit-bookmark">Edit Description</button>
@@ -36,7 +35,9 @@ const handlers = (function(){
   }
   
   function generateBookmarkRatingDisplay(rating) {
-    return `${rating} out of 5`;
+    if (rating) {return `${rating} out of 5`;}
+    else {return `0 out of 5`;
+    }
     // if (rating === 5) {
     //   return `
     //     <input type="radio" id="star5" name="rate" value="5" checked/>
@@ -105,7 +106,7 @@ const handlers = (function(){
   }
   
   function generateLibraryBookmarksString(bookmarks) {
-    console.log('generateLibraryBookmarksString ran' + bookmarks);
+    // console.log('generateLibraryBookmarksString ran' + bookmarks);
     const bookmarkElements = bookmarks.map((bookmark) => generateBookmarkElement(bookmark));
     return bookmarkElements.join('');
   }
@@ -129,11 +130,12 @@ const handlers = (function(){
       $(".new-bookmark-form").addClass('hidden');
 
       let bookmarks = [ ...library.bookmarks ];
-      // let totalBookmarks = bookmarks.length();
+      let totalBookmarks = library.bookmarks.length;
+      let displayedBookmarks = totalBookmarks;
       if (library.ratingFilter > 0) {
-        bookmarks = bookmarks.filter(bookmark => bookmark >= library.ratingFilter);
+        bookmarks = bookmarks.filter(bookmark => bookmark.rating >= library.ratingFilter);
+        displayedBookmarks = bookmarks.length;
       }
-      // let displayedBookmarks = bookmarks.length;
     
       // render the bookmarks in the DOM
       // console.log('`render` ran' + bookmarks);
@@ -143,7 +145,7 @@ const handlers = (function(){
       $('.bookmarks').html(libraryBookmarkString);
       // console.log(libraryBookmarkString);
       // // display bookmark count
-      // $(".number-of-bookmarks-displayed").html(`${displayedBookmarks} out of ${totalBookmarks} Bookmarks`);
+      $(".number-of-bookmarks-displayed").html(`${displayedBookmarks} out of ${totalBookmarks} Bookmarks`);
     }
   }
   
@@ -188,7 +190,7 @@ const handlers = (function(){
   }
   
   function handleBookmarkDetailsClicked() {
-    $('.bookmarks').on('click', '.bookmark-details', event => {
+    $('.bookmarks').on('click', '.bookmark-details-button', event => {
       const id = getBookmarkIdFromElement(event.currentTarget);
       library.toggleBookmarkDetails(id);
       render();
@@ -223,25 +225,25 @@ const handlers = (function(){
     });
   }
   
-  // function handleEditBookmarkSubmit() {
-  //   $('.bookmarks').on('submit', '.js-edit-bookmark', event => {
-  //     event.preventDefault();
-  //     const id = getBookmarkIdFromElement(event.currentTarget);
-  //     const newDesc = $(event.currentTarget).find('.bookmark-description').val();
-  //     api.updateBookmark(id, {desc: newDesc})
-  //       .then(response => {
-  //         console.log(response);
-  //         library.findAndUpdate(id, {desc: newDesc});
-  //         render();
-  //       })
-  //       .catch(error => {
-  //         library.error = error;
-  //         console.log(library.error);
-  //         render();
-  //         library.error = null;
-  //       });
-  //   });
-  // }
+  function handleEditBookmarkSubmit() {
+    $('.bookmarks').on('submit', '.js-edit-bookmark', event => {
+      event.preventDefault();
+      const id = getBookmarkIdFromElement(event.currentTarget);
+      const newDesc = $(event.currentTarget).find('.bookmark-description').val();
+      api.updateBookmark(id, {desc: newDesc})
+        .then(response => {
+          console.log(response);
+          library.findAndUpdate(id, {desc: newDesc});
+          render();
+        })
+        .catch(error => {
+          library.error = error;
+          console.log(library.error);
+          render();
+          library.error = null;
+        });
+    });
+  }
   
   function handleFilterByRating() {
     $('#filter-by-rating').change(function() {
@@ -250,22 +252,22 @@ const handlers = (function(){
     });
   }
 
-  // function handleBookmarkStartEditing() {
-  //   $('.bookmarks').on('click', '.js-edit-bookmark', event => {
-  //     const id = getBookmarkIdFromElement(event.target);
-  //     library.setBookmarkIsEditing(id, true);
-  //     render();
-  //   });
-  // }
+  function handleBookmarkStartEditing() {
+    $('.bookmarks').on('click', '.bookmark-description', event => {
+      const id = getBookmarkIdFromElement(event.target);
+      library.setBookmarkIsEditing(id, true);
+      render();
+    });
+  }
 
   function bindEventListeners() {
     handleNewBookmarkSubmit();
     handleBookmarkDetailsClicked();
     handleAddBookmarkFormClicked();
     handleDeleteBookmarkClicked();
-    // handleEditBookmarkSubmit();
+    handleEditBookmarkSubmit();
     handleFilterByRating();
-    // handleBookmarkStartEditing();
+    handleBookmarkStartEditing();
   }
 
   // This object contains the only exposed methods from this module:
