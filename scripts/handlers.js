@@ -28,7 +28,6 @@ const handlers = (function(){
             <button class="grid-item col-1 bookmark-details-button">Details</button>
             <div class="grid-row col-4 bookmark-details ${detailsToggle}">
                 <button class="grid-item col-1 bookmark-url-button" onclick="window.open('${bookmark.url}', '_blank'); return false;">Visit site</button>
-                <button class="grid-item col-1 bookmark-edit-desc-button js-edit-bookmark">Edit Description</button>
                 ${bookmarkDesc}
             </div>
         </li>`;
@@ -128,25 +127,24 @@ const handlers = (function(){
       $(".error-display").html('');
       $(".error-display").addClass('hidden');
       $(".new-bookmark-form").addClass('hidden');
-
-      let bookmarks = [ ...library.bookmarks ];
-      let totalBookmarks = library.bookmarks.length;
-      let displayedBookmarks = totalBookmarks;
-      if (library.ratingFilter > 0) {
-        bookmarks = bookmarks.filter(bookmark => bookmark.rating >= library.ratingFilter);
-        displayedBookmarks = bookmarks.length;
-      }
-    
-      // render the bookmarks in the DOM
-      // console.log('`render` ran' + bookmarks);
-      const libraryBookmarkString = generateLibraryBookmarksString(bookmarks);
-      
-      // insert that HTML into the DOM
-      $('.bookmarks').html(libraryBookmarkString);
-      // console.log(libraryBookmarkString);
-      // // display bookmark count
-      $(".number-of-bookmarks-displayed").html(`${displayedBookmarks} out of ${totalBookmarks} Bookmarks`);
     }
+    let bookmarks = [ ...library.bookmarks ];
+    let totalBookmarks = library.bookmarks.length;
+    let displayedBookmarks = totalBookmarks;
+    if (library.ratingFilter > 0) {
+      bookmarks = bookmarks.filter(bookmark => bookmark.rating >= library.ratingFilter);
+      displayedBookmarks = bookmarks.length;
+    }
+  
+    // render the bookmarks in the DOM
+    // console.log('`render` ran' + bookmarks);
+    const libraryBookmarkString = generateLibraryBookmarksString(bookmarks);
+    
+    // insert that HTML into the DOM
+    $('.bookmarks').html(libraryBookmarkString);
+    // console.log(libraryBookmarkString);
+    // // display bookmark count
+    $(".number-of-bookmarks-displayed").html(`${displayedBookmarks} out of ${totalBookmarks} Bookmarks`);
   }
   
   
@@ -162,16 +160,16 @@ const handlers = (function(){
       const newBookmarkDesc = $('.new-bookmark-desc').val();
       $('.new-bookmark-desc').val('');
 
-      const newBookmarkRating = $('input[new-bookmark-rating]:checked').val();
-      $('input[new-bookmark-rating]:checked').attr('checked', false);
+      const newBookmarkRating = $('input[name="new-bookmark-rating"]:checked').val();
+      $('input[name="new-bookmark-rating"]:checked').attr('checked', false);
 
       library.error = null;
       
       api.createBookmark(newBookmarkTitle, newBookmarkUrl, newBookmarkDesc, newBookmarkRating)
         .then(bookmark => {
           library.addBookmark(bookmark);
+          console.log('library added the new bookmark and handleNewBookmarkSubmit told render to run');
           render();
-          console.log('handleNewBookmarkSubmit told render to run');
         })
         .catch(error => {
           library.error = error;
@@ -234,6 +232,7 @@ const handlers = (function(){
         .then(response => {
           console.log(response);
           library.findAndUpdate(id, {desc: newDesc});
+          console.log('handleEditBookmarkSubmit ran and updated the library with ' + 'desc: ' + newDesc);
           render();
         })
         .catch(error => {

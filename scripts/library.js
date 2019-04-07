@@ -4,7 +4,7 @@
 
 const library = (function(){
   const addBookmark = function(bookmark) {
-    const newBookmark = { ...bookmark , details: false };
+    const newBookmark = { ...bookmark , details: false , isEditing: false};
     try {
       library.bookmarks.push(newBookmark);
     } catch(e) {
@@ -24,6 +24,8 @@ const library = (function(){
 
   const findAndUpdate = function(id, newData) {
       Object.assign(library.bookmarks.find(bookmark => bookmark.id === id), newData);
+      const bookmark = this.findById(id);
+      bookmark.isEditing = false;
   };
 
   const setBookmarkIsEditing = function(id, isEditing) {
